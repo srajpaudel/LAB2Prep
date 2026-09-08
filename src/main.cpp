@@ -183,8 +183,11 @@ void handleInput(sf::Window& window, GameState& gameState, const ResourceManager
             shouldQuit = true;
         }
 
-        //  implement jump logic (the key press should be space) and play jump sound fx
-                
+        //  implement jump logic (space key press) and play jump sound fx
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
+            gameState.bird.velocityY = JUMP_SPEED;
+            resources.jumpSound->play();
+        }
     }
 }
 
@@ -214,23 +217,19 @@ int main() {
         // Prevent key repeats.
         window.setKeyRepeatEnabled(false);
 
-        // ====== ====== ======
         // TODO: (Q2)
         //  - load jump sound into resources.jumpSoundBuffer
-        //      - if fails, print to stderr: "Warning: Could not load jump.wav"
-        //  - initialize an sf::Sound from resources.jumpSoundBuffer in resources.jumpSound
-        // ====== ====== ======
-        //  Note that a std::unique_ptr<T> is just a holder of a T* that automatically calls
-        //  delete for you on the T* when it goes out of scope.
-        //      e.g., std::unique_ptr<int> intPtr; // holds nullptr
-        //            if (intPtr) {
-        //                // Only runs when intPtr.get() != nullptr
-        //            }
-        //            intPtr.reset(new int(5)); // how to assign new ptr to a unique_ptr
-        //            std::cout << "value is " << *intPtr << '\n';
-        //            std::cout << "raw address is " << intPtr.get() << '\n';
-        // ====== ====== ======
+        resources.jumpSoundBuffer.reset(new sf::SoundBuffer());
 
+        //      - if fails, print to stderr: "Warning: Could not load jump.wav"
+        if (!resources.jumpSoundBuffer->loadFromFile("assets/jump.wav")) {
+            std::cerr << "Warning: Could not load jump.wav" << std::endl;
+        } else 
+        {
+            //  - initialize an sf::Sound from resources.jumpSoundBuffer in resources.jumpSound
+            resources.jumpSound.reset(new sf::Sound(*resources.jumpSoundBuffer));
+        }
+        
         bool shouldQuit = false;
         // Main game loop
         while (window.isOpen()) {
