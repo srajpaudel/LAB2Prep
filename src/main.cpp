@@ -24,7 +24,6 @@ const float GRAVITY = 0.3f;
 const float JUMP_SPEED = -5.0f;  // (set velocity of bird in the Y direction upon jump)
 const float TUBE_SPEED = 3.0f;
 
-// TODO: (Q1)
 //  Initial Bird Attributes
 //  Initialize the global (constant) variables for it here (radius, position, color)
 const float radius = 15.0f;
@@ -72,19 +71,15 @@ struct TubePair {
 bool isTubeOffScreen(const TubePair& tube) { return tube.isOffScreen(); }
 
 struct BirdState {
-    BirdState() : velocityY{INITIAL_BIRD_VELOCITY_Y} {
-        // ====== ====== ======
-        // TODO: (Q1)
+    BirdState() : shape{radius}, velocityY{INITIAL_BIRD_VELOCITY_Y} {
         //  - initialize the bird's shape (see below) to have
         //    appropriate size, color, and initial position.
-        //  Note: consider using member initializer list to set the radius via ctor call.
-        // ====== ====== ======
+        shape.setPosition({posX, posY});
+        shape.setFillColor(birdColor);
     }
 
-    // ====== ====== ======
-    // TODO: (Q1)
     //  - add a field for the bird's shape.
-    // ====== ====== ======
+    sf::CircleShape shape;
     float velocityY;
 };
 
@@ -188,10 +183,8 @@ void handleInput(sf::Window& window, GameState& gameState, const ResourceManager
             shouldQuit = true;
         }
 
-        // ====== ====== ======
-        // TODO: (Q2)
         //  implement jump logic (the key press should be space) and play jump sound fx
-        // ====== ====== ======
+                
     }
 }
 
@@ -203,9 +196,9 @@ void render(sf::RenderWindow& window, const GameState& gameState) {
         window.draw(tube.topTube);
         window.draw(tube.bottomTube);
     }
-    // ====== ====== ======
-    // TODO: (Q1) Draw bird
-    // ====== ====== ======
+
+    // Draw bird
+    window.draw(gameState.bird.shape);
     window.display();
 }
 
