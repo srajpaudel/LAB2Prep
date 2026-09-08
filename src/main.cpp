@@ -27,6 +27,11 @@ const float TUBE_SPEED = 3.0f;
 // TODO: (Q1)
 //  Initial Bird Attributes
 //  Initialize the global (constant) variables for it here (radius, position, color)
+const float radius = 15.0f;
+const float posX = 100.0f;
+const float posY = 400.0f;
+const sf::Color birdColor = sf::Color::Yellow;
+
 
 // ResourceManager just owns all the resources/assets you'd want in your game.
 // In an engine, you'd probably want to make this more flexible than what we have here
