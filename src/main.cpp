@@ -184,9 +184,11 @@ void handleInput(sf::Window& window, GameState& gameState, const ResourceManager
         }
 
         //  implement jump logic (space key press) and play jump sound fx
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
-            gameState.bird.velocityY = JUMP_SPEED;
-            resources.jumpSound->play();
+        if (const auto* key = event->getIf<sf::Event::KeyPressed>()) {
+            if (key->code == sf::Keyboard::Key::Space) {
+                gameState.bird.velocityY = JUMP_SPEED;
+                resources.jumpSound->play();
+            }
         }
     }
 }
